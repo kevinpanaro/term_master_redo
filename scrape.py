@@ -2,7 +2,6 @@ from scrapy.spider import Spider
 from scrapy.contrib.spiders import Rule, CrawlSpider
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
-#from drexel_termmaster.items import DrexelTermmasterItem
 from urlparse import urljoin
 from scrapy.utils.response import get_base_url
 from scrapy.http import Request
@@ -11,7 +10,9 @@ import types
 import json
 from StringIO import StringIO
 import ast
-# To run: "scrapy crawl term_crawler"
+
+
+# To run: "scrapy runspider scrape.py"
 
 
 final_dict = {}
@@ -42,8 +43,6 @@ class MySpider(Spider):
     name = "term_crawler_test"
     allowed_domains = ["drexel.edu"]
     start_urls = ["https://duapp2.drexel.edu/webtms_du/app?"]
-    
-    
     
 
     # Colleges
@@ -146,9 +145,6 @@ class MySpider(Spider):
         room = sel.xpath("//tr[@class='even']/td[6]/text()").extract()[0]
         link = response.url
 
-
-        # print term, subject_code, course_number, instruction_type, crn, credits, title, instructor,max_enroll,enroll,comments,start_date,end_date
-
         # make crn_dict
         crn_dict={crn:
                             {
@@ -168,7 +164,6 @@ class MySpider(Spider):
                             }
                         }
 
-
         instruction_type_dict = {instruction_type: crn_dict}
         course_number_dict = {course_number: instruction_type_dict}
         subject_code_dict = {subject_code: course_number_dict}
@@ -185,47 +180,6 @@ class MySpider(Spider):
                 f.seek(0)
                 f.truncate()
                 json.dump((merge(term_dict,data_dict)), f)
-            
-
-                
-
-            
-
 
 
         return None
-
-
-        
-        
-        # for titles in titles:
-        #     item['crn'] = titles.xpath("//td[@class='even'][1]/text()").extract()
-        #     item['subject_code'] = titles.xpath("//td[@class='odd'][1]/text()").extract()
-        #     item['course_number'] = titles.xpath("//td[@class='even'][2]/text()").extract()
-        #     item['section'] = titles.xpath("//td[@class='odd'][2]/text()").extract()
-        #     item['credits'] = titles.xpath("//td[@class='even'][3]/text()").extract()
-        #     item['title'] = titles.xpath("//td[@class='odd'][3]/text()").extract()
-        #     item['instructor'] = titles.xpath("//td[@class='odd'][4]/text()").extract()
-        #     item['instruction_type'] = titles.xpath("//td[@class='even'][5]/text()").extract()
-        #     item['max_enroll'] = titles.xpath("//td[@class='odd'][5]/text()").extract()
-        #     item['enroll'] = titles.xpath("//td[@class='even'][6]/text()").extract()
-        #     item['section_comments'] = titles.xpath("//td[@class='even']/table//td/text()").extract()
-
-
-
-
-        #     item['start_date'] = sel.xpath("//tr[@class='even']/td[1]/text()").extract()
-        #     item['end_date'] = sel.xpath("//tr[@class='even']/td[2]/text()").extract()
-        #     item['times'] = sel.xpath("//tr[@class='even']/td[3]/text()").extract()
-        #     item['days'] = sel.xpath("//tr[@class='even']/td[4]/text()").extract()
-        #     item['building'] = sel.xpath("//tr[@class='even']/td[5]/text()").extract()
-        #     item['room'] = sel.xpath("//tr[@class='even']/td[6]/text()").extract()
-        #     item['link'] = response.url
-        #     item['term'] = [u''.join(list(str(sel.xpath('//td/div[@align="left"]/text()').extract()[0])[13:]))]
-        # items.append(item)
-        # return items
-
-        # f = open('drexel.json','w')
-        # f.write(final_dict_json) 
-        # f.close()
-
