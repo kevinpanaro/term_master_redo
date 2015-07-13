@@ -21,7 +21,7 @@ code_dict = {}
 num_dict = {}
 type_dict = {}
 crn_dict = {}
-term_to_scrape = "Spring Quarter 14-15"
+term_to_scrape = "Fall Quarter 15-16"
 
 def merge(x,y):
     # store a copy of x, but overwrite with y's values where applicable         
@@ -160,7 +160,7 @@ class MySpider(Spider):
                                 "days"      : days,
                                 "building"  : buidling,
                                 "room"      : room,
-                                # "link"      : link
+                                "link"      : link
                             }
                         }
 
@@ -170,7 +170,7 @@ class MySpider(Spider):
         term_dict = {term: subject_code_dict}
         
 
-        with open("drexel.json", "r+") as f:
+        with open("fall_links.json", "r+") as f:
             data = f.read()
 
             if len(data) == 0:
